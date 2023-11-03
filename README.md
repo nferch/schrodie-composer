@@ -1,6 +1,5 @@
-# Template Plugin: Colors
-
-This is an example of building a simple plugin inside [Composer](https://composer.dxos.org).
+# Schrödie Composer
+This is a [Composer](https://composer.dxos.org) instance for the Schrödie research group to use for facilitating meetings.
 
 ## Running
 
