@@ -11,7 +11,7 @@ export default defineConfig({
     host: true,
   },
   build: {
-    outDir: "out/dxos-templates",
+    outDir: "dist",
   },
 
   plugins: [
