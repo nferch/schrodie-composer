@@ -26,8 +26,7 @@ import {
 import { Expando, TypedObject, isTypedObject } from "@dxos/react-client/echo";
 import { Button } from "@dxos/react-ui";
 
-type MyPluginProvides =
-  SurfaceProvides &
+type MyPluginProvides = SurfaceProvides &
   IntentResolverProvides &
   GraphBuilderProvides &
   MetadataRecordsProvides &
@@ -125,8 +124,8 @@ export const MyPlugin = (): PluginDefinition<MyPluginProvides> => {
           [TYPE]: {
             placeholder: ["color title placeholder", { ns: PLUGIN_ID }],
             icon: (props) => <Palette {...props} />,
-          }
-        }
+          },
+        },
       },
       translations: [
         {
@@ -136,6 +135,7 @@ export const MyPlugin = (): PluginDefinition<MyPluginProvides> => {
               "color title placeholder": "Color",
               "delete object label": "Delete Color",
               "rename object label": "Rename Color",
+              "create stack section label": "Create a Color",
             },
           },
         },
@@ -153,23 +153,27 @@ export const MyPlugin = (): PluginDefinition<MyPluginProvides> => {
                 testId: "spacePlugin.createDocument",
                 disposition: "toolbar",
               },
-              invoke: () => intentPlugin.provides.intent.dispatch([
-                {
-                  plugin: PLUGIN_ID,
-                  action: PluginAction.CREATE,
-                },
-                {
-                  action: SpaceAction.ADD_TO_FOLDER,
-                  data: { folder: parent.data },
-                },
-                {
-                  action: LayoutAction.ACTIVATE,
-                },
-              ]),
+              invoke: () =>
+                intentPlugin.provides.intent.dispatch([
+                  {
+                    plugin: PLUGIN_ID,
+                    action: PluginAction.CREATE,
+                  },
+                  {
+                    action: SpaceAction.ADD_TO_FOLDER,
+                    data: { folder: parent.data },
+                  },
+                  {
+                    action: LayoutAction.ACTIVATE,
+                  },
+                ]),
             });
           } else if (isTypedObject(parent.data) && isColor(parent.data)) {
             return effect(() => {
-              parent.label = parent.data.color || ["color title placeholder", { ns: PLUGIN_ID }];
+              parent.label = parent.data.color || [
+                "color title placeholder",
+                { ns: PLUGIN_ID },
+              ];
             });
           }
         },
@@ -180,7 +184,7 @@ export const MyPlugin = (): PluginDefinition<MyPluginProvides> => {
             id: "create-stack-section-color",
             testId: "color-plugin.createSectionSpaceColor",
             label: ["create stack section label", { ns: PLUGIN_ID }],
-            icon: (props: any) => <CompassTool {...props} />,
+            icon: (props: any) => <Palette {...props} />,
             intent: {
               plugin: PLUGIN_ID,
               action: PluginAction.CREATE,
@@ -192,10 +196,14 @@ export const MyPlugin = (): PluginDefinition<MyPluginProvides> => {
         component: (data, role) => {
           switch (role) {
             case "main":
-              return isTypedObject(data.active) && isColor(data.active) ? <ColorMain object={data.active} /> : null;
-    
+              return isTypedObject(data.active) && isColor(data.active) ? (
+                <ColorMain object={data.active} />
+              ) : null;
+
             case "section":
-              return isTypedObject(data.object) && isColor(data.object) ? <ColorSection object={data.object} /> : null;
+              return isTypedObject(data.object) && isColor(data.object) ? (
+                <ColorSection object={data.object} />
+              ) : null;
           }
 
           return null;
