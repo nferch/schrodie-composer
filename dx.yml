@@ -9,6 +9,8 @@ package:
 runtime:
   client:
     remoteSource: https://halo.dev.dxos.org/vault.html
+    log:
+      filter: error
     storage:
       persistent: true
   services:
